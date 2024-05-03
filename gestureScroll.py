@@ -46,7 +46,7 @@ class handDetector():
     def fingersUp(self):
         fingers = []
         # 大拇指
-        if (self.lmList[self.tipIds[0]][2] +10 < self.lmList[self.tipIds[0] - 2][2]) and (self.lmList[self.tipIds[0]][2] +10 < self.lmList[self.tipIds[1] - 2][2])  and (self.lmList[self.tipIds[0]][2] < self.lmList[self.tipIds[1]][2]):
+        if (self.lmList[self.tipIds[0]][2] +10 < self.lmList[self.tipIds[0] - 2][2]) and (self.lmList[self.tipIds[0]][2] < self.lmList[self.tipIds[1]][2]):
             fingers.append(1)
         else:
             fingers.append(0)
@@ -152,8 +152,8 @@ while True:
     cTime = time.time()
     fps = 1 / (cTime - pTime)
     pTime = cTime
-    cv2.putText(img, f'fps:{int(fps)}', (15, 25),cv2.FONT_HERSHEY_PLAIN, 2, (255, 0, 255), 2)
-    cv2.imshow("Gesture Scroll", img)
+    #cv2.putText(img, f'fps:{int(fps)}', (15, 25),cv2.FONT_HERSHEY_PLAIN, 2, (255, 0, 255), 2)
+    #cv2.imshow("Gesture Scroll", img)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         print("\nkey exit")
         break
