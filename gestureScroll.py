@@ -46,14 +46,14 @@ class handDetector():
     def fingersUp(self):
         fingers = []
         # 大拇指
-        if self.lmList[self.tipIds[0]][1] > self.lmList[self.tipIds[0] - 1][1]:
+        if (self.lmList[self.tipIds[0]][2] +10 < self.lmList[self.tipIds[0] - 2][2]) and (self.lmList[self.tipIds[0]][2] +10 < self.lmList[self.tipIds[1] - 2][2])  and (self.lmList[self.tipIds[0]][2] < self.lmList[self.tipIds[1]][2]):
             fingers.append(1)
         else:
             fingers.append(0)
 
         # 其余手指
         for id in range(1, 5):
-            if self.lmList[self.tipIds[id]][2] < self.lmList[self.tipIds[id] - 2][2]:
+            if (self.lmList[self.tipIds[id]][2] + 20 < self.lmList[self.tipIds[id] - 2][2]):
                 fingers.append(1)
             else:
                 fingers.append(0)
@@ -101,8 +101,8 @@ def main():
         fps = 1 / (cTime - pTime)
         pTime = cTime
 
-        #cv2.putText(img, 'fps:' + str(int(fps)), (10, 70), cv2.FONT_HERSHEY_PLAIN, 3, (255, 0, 255), 3)
-        #cv2.imshow('Image', img)
+        cv2.putText(img, 'fps:' + str(int(fps)), (10, 70), cv2.FONT_HERSHEY_PLAIN, 3, (255, 0, 255), 3)
+        cv2.imshow('Image', img)
         cv2.waitKey(1)
 
 ##############################
@@ -139,20 +139,20 @@ while True:
         x1, y1 = lmList[8][1:]
         x2, y2 = lmList[12][1:]
         fingers = detector.fingersUp()
-        print(fingers,end='\r')
+        print(f'{lmList[4][2]},{lmList[2][2]},{lmList[6][2]},{fingers[0]},{fingers[1]},{fingers[2]},{fingers[3]},{fingers[4]}',end='\r')
+        #print(lmList+fingers,end='\r')
         if fingers[0]:#伸拇指往下翻
             pyautogui.scroll(-200);
         else:
             if fingers[1]:#伸食指往上翻
                 pyautogui.scroll(200);
-        if fingers[0] and fingers[1] and fingers[2] and fingers[3] and fingers[4]:
+        if fingers[1] and fingers[2] and fingers[3] and fingers[4]:
             print("\ngesture exit")
             break
     cTime = time.time()
     fps = 1 / (cTime - pTime)
     pTime = cTime
-    cv2.putText(img, f'fps:{int(fps)}', (15, 25),
-                cv2.FONT_HERSHEY_PLAIN, 2, (255, 0, 255), 2)
+    cv2.putText(img, f'fps:{int(fps)}', (15, 25),cv2.FONT_HERSHEY_PLAIN, 2, (255, 0, 255), 2)
     cv2.imshow("Gesture Scroll", img)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         print("\nkey exit")
