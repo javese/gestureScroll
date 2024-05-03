@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[23]:
-
-
 #coding=utf-8
 import cv2
 import pyautogui
@@ -145,31 +139,25 @@ while True:
         x1, y1 = lmList[8][1:]
         x2, y2 = lmList[12][1:]
         fingers = detector.fingersUp()
-        
-        if fingers[0]:
+        print(fingers,end='\r')
+        if fingers[0]:#伸拇指往下翻
             pyautogui.scroll(-200);
         else:
-            if fingers[1]:
+            if fingers[1]:#伸食指往上翻
                 pyautogui.scroll(200);
-        if fingers[1] and fingers[2]:  # 退出
+        if fingers[0] and fingers[1] and fingers[2] and fingers[3] and fingers[4]:
+            print("\ngesture exit")
             break
-                
     cTime = time.time()
     fps = 1 / (cTime - pTime)
     pTime = cTime
     cv2.putText(img, f'fps:{int(fps)}', (15, 25),
                 cv2.FONT_HERSHEY_PLAIN, 2, (255, 0, 255), 2)
-    cv2.imshow("手势翻页", img)
-    k=cv2.waitKey(1) & 0xFF
-
+    cv2.imshow("Gesture Scroll", img)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        print("\nkey exit")
+        break
 #释放摄像头
 cap.release()
 #释放内存
 cv2.destroyAllWindows()
-
-
-# In[ ]:
-
-
-
-
